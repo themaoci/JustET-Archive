@@ -1,10 +1,5 @@
-logs
-build/out
-
 .vs
-slnx.sqlite
-slnx-journal.sqlite
 
-package-lock.json
-node_modules
-ResourceHacker.ini
+.vs/slnx.sqlite
+
+.vs/slnx-journal.sqlite
