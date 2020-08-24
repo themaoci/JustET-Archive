@@ -1,10 +1,16 @@
-logs
-build/out
+## emutarkov-server
+[Dd]ev/[Bb]in
+[Aa]ppdata/[Ll]ogs/*.log
+[Aa]ppdata/[Cc]ache/cache_items.json
+[Aa]ppdata/[Cc]ache/cache_locations.json
+[Aa]ppdata/[Cc]ache/cache_quests.json
+package-lock.json
+JustEmuTarkov-Server.exe
 
+## visual studio
 .vs
 slnx.sqlite
 slnx-journal.sqlite
 
-package-lock.json
+## nodejs
 node_modules
-ResourceHacker.ini
