@@ -1,0 +1,25 @@
+{
+	"Id": "loot_tushenka5870662",
+	"IsStatic": false,
+	"useGravity": true,
+	"randomRotation": true,
+	"Position": {
+		"x": -92.77759,
+		"y": 28.5828133,
+		"z": -15.3913574
+	},
+	"Rotation": {
+		"x": 0,
+		"y": 0,
+		"z": 0
+	},
+	"IsGroupPosition": false,
+	"GroupPositions": [],
+	"Root": "5e382a242855471525604444",
+	"Items": [
+		{
+			"_id": "5e382a242855471525604444",
+			"_tpl": "57347d7224597744596b4e72"
+		}
+	]
+}

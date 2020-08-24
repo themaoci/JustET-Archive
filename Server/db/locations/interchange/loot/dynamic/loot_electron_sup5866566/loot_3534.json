@@ -1,0 +1,25 @@
+{
+	"Id": "loot_electron_sup5866566",
+	"IsStatic": false,
+	"useGravity": true,
+	"randomRotation": true,
+	"Position": {
+		"x": 6.734375,
+		"y": 27.7388115,
+		"z": 35.12964
+	},
+	"Rotation": {
+		"x": 0,
+		"y": 0,
+		"z": 0
+	},
+	"IsGroupPosition": false,
+	"GroupPositions": [],
+	"Root": "5e382a1c7e788532af3600ff",
+	"Items": [
+		{
+			"_id": "5e382a1c7e788532af3600ff",
+			"_tpl": "5d1b2ffd86f77425243e8d17"
+		}
+	]
+}

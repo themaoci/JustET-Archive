@@ -1,0 +1,25 @@
+{
+	"Id": "arm_cloth_head (28)5860704",
+	"IsStatic": false,
+	"useGravity": false,
+	"randomRotation": false,
+	"Position": {
+		"x": 31.4727783,
+		"y": 38.36681,
+		"z": 19.8122559
+	},
+	"Rotation": {
+		"x": 0,
+		"y": 158.926361,
+		"z": 0
+	},
+	"IsGroupPosition": false,
+	"GroupPositions": [],
+	"Root": "5e382a018e89a76b703a0f25",
+	"Items": [
+		{
+			"_id": "5e382a018e89a76b703a0f25",
+			"_tpl": "5aa2b9ede5b5b000137b758b"
+		}
+	]
+}

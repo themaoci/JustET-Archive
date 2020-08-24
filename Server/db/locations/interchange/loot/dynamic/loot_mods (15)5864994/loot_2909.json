@@ -1,0 +1,25 @@
+{
+	"Id": "loot_mods (15)5864994",
+	"IsStatic": false,
+	"useGravity": true,
+	"randomRotation": true,
+	"Position": {
+		"x": 67.99902,
+		"y": 22.5548134,
+		"z": -24.0020752
+	},
+	"Rotation": {
+		"x": 0,
+		"y": 0,
+		"z": 0
+	},
+	"IsGroupPosition": false,
+	"GroupPositions": [],
+	"Root": "5e382a0d2855471525603692",
+	"Items": [
+		{
+			"_id": "5e382a0d2855471525603692",
+			"_tpl": "55d355e64bdc2d962f8b4569"
+		}
+	]
+}

@@ -1,0 +1,25 @@
+{
+	"Id": "loot_electron (57)5861152",
+	"IsStatic": false,
+	"useGravity": true,
+	"randomRotation": true,
+	"Position": {
+		"x": 22.68335,
+		"y": 28.2738075,
+		"z": 23.6167
+	},
+	"Rotation": {
+		"x": 0,
+		"y": 0,
+		"z": 0
+	},
+	"IsGroupPosition": false,
+	"GroupPositions": [],
+	"Root": "5e3829f51d55576e1a52677a",
+	"Items": [
+		{
+			"_id": "5e3829f51d55576e1a52677a",
+			"_tpl": "57347c2e24597744902c94a1"
+		}
+	]
+}

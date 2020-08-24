@@ -1,0 +1,25 @@
+{
+	"Id": "loot_jeverly_statue (3)5868048",
+	"IsStatic": false,
+	"useGravity": true,
+	"randomRotation": true,
+	"Position": {
+		"x": -51.27661,
+		"y": 27.8028069,
+		"z": -272.457336
+	},
+	"Rotation": {
+		"x": 0,
+		"y": 0,
+		"z": 0
+	},
+	"IsGroupPosition": false,
+	"GroupPositions": [],
+	"Root": "5e382a0d28554715256035cb",
+	"Items": [
+		{
+			"_id": "5e382a0d28554715256035cb",
+			"_tpl": "573478bc24597738002c6175"
+		}
+	]
+}
