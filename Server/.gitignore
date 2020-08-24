@@ -1,16 +1,19 @@
 ## emutarkov-server
 [Dd]ev/[Bb]in
-[Aa]ppdata/[Ll]ogs/*.log
-[Aa]ppdata/[Cc]ache/cache_items.json
-[Aa]ppdata/[Cc]ache/cache_locations.json
-[Aa]ppdata/[Cc]ache/cache_quests.json
+[Uu]ser/[Ll]ogs
+[Uu]ser/[Cc]ache
 package-lock.json
-JustEmuTarkov-Server.exe
+EmuTarkov-Server.exe
+EmuTarkov-Server-Compressed.exe
 
 ## visual studio
 .vs
+.idea
 slnx.sqlite
 slnx-journal.sqlite
 
 ## nodejs
 node_modules
+
+## windows
+desktop.ini

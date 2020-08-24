@@ -1,0 +1,57 @@
+{
+    "user": {
+        "cache": {},
+        "profiles": {
+            "traders": {},
+            "list": ""
+        },
+        "config": ""
+    },
+    "assort": {},
+    "bots": {
+        "inventory": {},
+        "base": "",
+        "names": "",
+        "outfits": ""
+    },
+    "cert": {
+		"server": {
+			"cert": "",
+			"key": ""
+		}
+    },
+    "customization": {
+        "offers": {},
+        "outfits": {}
+    },
+    "hideout": {
+        "settings": "",
+        "areas": {},
+        "production": {},
+        "scavcase": {}
+    },
+    "images": {
+        "banners": {},
+        "handbook": {},
+        "hideout": {},
+        "quest": {},
+        "trader": {}
+    },
+    "items": {},
+    "locales": {
+        "languages": {}
+    },
+    "locations": {},
+    "maps": {},
+    "quests": {},
+    "ragfair": {
+        "offer": "",
+        "search": ""
+    },
+    "templates": {
+        "categories": {},
+        "items": {}
+    },
+    "traders": {},
+    "weather": {}
+}
