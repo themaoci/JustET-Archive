@@ -15,7 +15,7 @@ function getRandomInt(min, max) {
 	max = Math.floor(max);
 
 	return Math.floor(Math.random() * (max - min + 1)) + min;
-} // stolen off StackOverflow
+}
 
 function getRandomIntEx(max) {
 	return Math.floor(Math.random() * Math.floor(max));
