@@ -12,3 +12,5 @@ I take NO responsibility and/or liability for how you choose to use any of the s
 
 ~ Polivilas
 ~ TheMaoci
+~ Rick (for keeping this data <3)
+~ Others
