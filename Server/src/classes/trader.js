@@ -181,9 +181,13 @@ class TraderServer {
     }
 }
 
+/*
+    function to calculate the price of each player items in the inventory when selling
+*/
 function getPurchasesData(tmpTraderInfo, sessionID) {
     let pmcData = profile_f.profileServer.getPmcProfile(sessionID);
-    let currency = itm_hf.getCurrency(trader_f.traderServer.getTrader(tmpTraderInfo, sessionID).data.currency);
+    let traderData = trader_f.traderServer.getTrader(tmpTraderInfo, sessionID);
+    let currency = itm_hf.getCurrency(traderData.data.currency);
     let output = {};
 
     // get sellable items
@@ -192,18 +196,52 @@ function getPurchasesData(tmpTraderInfo, sessionID) {
         && item._id !== pmcData.Inventory.stash
         && item._id !== pmcData.Inventory.questRaidItems
         && item._id !== pmcData.Inventory.questStashItems
-        && !itm_hf.isNotSellable(item._tpl)) {
-            // calculate normal price and count
-            let price = (items.data[item._tpl]._props.CreditsPrice >= 1 ? items.data[item._tpl]._props.CreditsPrice : 1);
-            let count = (typeof item.upd !== "undefined" ? (typeof item.upd.StackObjectsCount !== "undefined" ? item.upd.StackObjectsCount : 1) : 1);
+        && !itm_hf.isNotSellable(item._tpl) 
+        && traderFilter(traderData.data.sell_category,item._tpl) ) {
+
+            let price = 0;
+            //find all child of the item and sum the price 
+            for(let childItemId of itm_hf.findAndReturnChildren(pmcData,item._id) )
+            {
+                let childitem = itm_hf.findInventoryItemById(pmcData,childItemId);//find template to retrive price later
+                if(childitem != false)//in case of findItemByid didn't work
+                {
+                    let tempPrice = (items.data[childitem._tpl]._props.CreditsPrice >= 1 ? items.data[childitem._tpl]._props.CreditsPrice : 1);
+                    let count = (typeof childitem.upd !== "undefined" ? (typeof childitem.upd.StackObjectsCount !== "undefined" ? childitem.upd.StackObjectsCount : 1) : 1);
+                    tempPrice = tempPrice * count;
+                    price = price + tempPrice;
+                }
+                else
+                {
+                    price = (items.data[item._tpl]._props.CreditsPrice >= 1 ? items.data[item._tpl]._props.CreditsPrice : 1);
+                    let count = (typeof item.upd !== "undefined" ? (typeof item.upd.StackObjectsCount !== "undefined" ? item.upd.StackObjectsCount : 1) : 1);
+                    price = price * count;
+                }
+            }
 
             // uses profile information to get the level of the dogtag and multiplies
             if ("upd" in item && "Dogtag" in item.upd && itm_hf.isDogtag(item._tpl)) {
                 price *= item.upd.Dogtag.Level;
             }
 
+            //meds calculation
+            let hpresource = (typeof item.upd !== "undefined" ? (typeof item.upd.MedKit !== "undefined" ? item.upd.MedKit.HpResource : 0) : 0);  
+            if(hpresource > 0)
+            {
+                let maxHp = itm_hf.getItem(item._tpl)[1]._props.MaxHpResource;
+                price = price * (hpresource/maxHp);
+            }
+
+            //weapons and armor calculation
+            let repairable = (typeof item.upd !== "undefined" ? (typeof item.upd.Repairable !== "undefined" ? item.upd.Repairable : 1) : 1);  
+            if(repairable != 1 )
+            {
+                price = price * (repairable.Durability/repairable.MaxDurability)
+            }
+
+
             // get real price
-            price = price * count * settings.gameplay.trading.sellMultiplier;
+            price = price * settings.gameplay.trading.sellMultiplier;
             price = itm_hf.fromRUB(price, currency);
             price = (price > 0 && price !== "NaN" ? price : 1);
             
@@ -212,6 +250,31 @@ function getPurchasesData(tmpTraderInfo, sessionID) {
     }
 
     return output;
+}
+
+/*
+check if an item is allowed to be sold to a trader
+input : array of handbook categories, itemTpl of inventory
+output : boolean
+*/
+function traderFilter(traderFilters,tplToCheck)
+{
+    let found = false;
+    for(let filter of traderFilters)
+    {
+        for(let subcateg of itm_hf.childrenCategories(filter) )
+        {
+            for(let itemCategory of itm_hf.templatesWithParent(subcateg) )
+            {
+                if( itemCategory == tplToCheck)
+                {
+                    found = true;
+                    break;
+                }
+            }
+        }
+    }
+    return found;
 }
 
 module.exports.traderServer = new TraderServer();

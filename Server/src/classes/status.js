@@ -65,6 +65,7 @@ function examineItem(pmcData, body, sessionID) {
     // outside player profile
     if ("fromOwner" in body) {
         if (body.fromOwner.type === "RagFair") {
+            body.item = body.fromOwner.id;
             body.fromOwner.type = "Trader";
             body.fromOwner.id = "ragfair";
         }

@@ -105,6 +105,17 @@ function acceptQuest(pmcData, body, sessionID) {
 
 function completeQuest(pmcData, body, sessionID) {
     let state = "Success";
+    let intelCenterBonus = 0;//percentage of money reward
+
+    //find if player has money reward boost 
+    for(let area in pmcData.Hideout.Areas)
+    {
+        if(pmcData.Hideout.Areas[area].type == 11)
+        {
+            if(pmcData.Hideout.Areas[area].level == 1){intelCenterBonus = 5;}
+            if(pmcData.Hideout.Areas[area].level == 2){intelCenterBonus = 15;}
+        }
+    }
 
     for (let quest in pmcData.Quests) {
         if (pmcData.Quests[quest].qid === body.qid) {
@@ -115,6 +126,10 @@ function completeQuest(pmcData, body, sessionID) {
 
     // give reward
     let quest = json.parse(json.read(db.quests[body.qid]));
+    if(intelCenterBonus > 0)
+    { 
+        quest = applyMoneyBoost(quest,intelCenterBonus);    //money = money + (money*intelCenterBonus/100)
+    }
     let questRewards = getQuestRewardItems(quest, state);
 
     for (let reward of quest.rewards.Success) {
@@ -217,6 +232,20 @@ function handoverQuest(pmcData, body, sessionID) {
     return output;
 }
 
+function applyMoneyBoost(quest,moneyBoost)
+{
+    for (let reward in quest.rewards.Success)
+    {
+        if(quest.rewards.Success[reward].type == "Item")
+        {
+            if( itm_hf.isMoneyTpl(quest.rewards.Success[reward].items[0]._tpl) )
+            {
+                quest.rewards.Success[reward].items[0].upd.StackObjectsCount = quest.rewards.Success[reward].items[0].upd.StackObjectsCount + (quest.rewards.Success[reward].items[0].upd.StackObjectsCount*moneyBoost/100);
+            }
+        }
+    }
+    return quest;
+}
 /* Sets the item stack to value, or delete the item if value <= 0 */
 // TODO maybe merge this function and the one from customization
 function changeItemStack(pmcData, id, value, output) {

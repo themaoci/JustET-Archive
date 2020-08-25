@@ -35,36 +35,55 @@ function updateTraders(sessionID) {
 
 function updatePlayerHideout(sessionID) {
     let pmcData = profile_f.profileServer.getPmcProfile(sessionID);
+    let receipes = json.parse(json.read(db.user.cache.hideout_production));
+    let btcFarmLevel;
+    let btcFarmCGs;
+    let isGeneratorOn;
+
+    for (let area in pmcData.Hideout.Areas) 
+    {            
+        switch(pmcData.Hideout.Areas[area].type)
+        {
+            case 4:
+                isGeneratorOn = pmcData.Hideout.Areas[area].active;
+                //update fuel resource
+                break;
+
+            case 17:
+                //update air filters resource
+                break;
+
+            case 20:
+                btcFarmLevel = pmcData.Hideout.Areas[area].level;
+                for(let slot of pmcData.Hideout.Areas[area].slots )
+                {
+                    if(slot != null){btcFarmCGs++;}
+                }
+                //check bitcoin farm
+                break;
+        }
+    }
 
     // update production time
     for (let prod in pmcData.Hideout.Production) { 
-        /* bitcoin farm : manage multiples bitcoins but fuck this shit
-         * loop to find btc farm (hideout area 20)
-         * then check what level of upgrade the player btc farm is
-         * if lvl = 1 : do nothing
-         * if level = 2 or 3 then see how many bitcoins are already farmed, 
-         * then check time elapsed, and count how many bitcoins were farmed
-         * if farm is full, cut the production "inProgress" = false
-         */
 
-        /*
-            this need more checks too
-            if production need fuel, or generator turned on, check both of these
-
-            if fuel = 0 then generator = disabled 
-            if production needs gennerator activated true, then check if generator activated == true
-
-        */
-        let time_elapsed = Math.floor(Date.now() / 1000) - pmcData.Hideout.Production[prod].StartTime;
-        pmcData.Hideout.Production[prod].Progress = time_elapsed; 
-    }
-
-    for (let area in pmcData.Hideout.Areas) {            
-        // update resource of first slot
-        if (pmcData.Hideout.Areas[area].slots.length > 0) {
-            // hmmm ...? 
+        let needGenerator = false;
+        for(let receipe of receipes.data)
+        {
+            if(receipe._id == pmcData.Hideout.Production[prod].RecipeId && receipe.continuous == true)
+            {
+                needGenerator = true;
+            }
         }
+
+        let time_elapsed = (Math.floor(Date.now() / 1000) - pmcData.Hideout.Production[prod].StartTime) - pmcData.Hideout.Production[prod].Progress;
+        if(needGenerator == true && isGeneratorOn == false)
+        {
+            time_elapsed = time_elapsed*0.2;
+        }
+        pmcData.Hideout.Production[prod].Progress += time_elapsed; 
     }
+
 }
 
 module.exports.main = main;

@@ -147,16 +147,18 @@ function handleCartridges(items, body) {
 
 /* Remove item of itemId and all of its descendants from profile. */
 function removeItemFromProfile(profileData, itemId, output = null) {
-    //get all ids related to this item, +including this item itself
+    // get items to remove
     let ids_toremove = itm_hf.findAndReturnChildren(profileData, itemId);
-    for (let i in ids_toremove) { //remove one by one all related items and itself
+
+     //remove one by one all related items and itself
+    for (let i in ids_toremove) {
         if (output !== null) {
-            output.data.items.del.push({"_id": ids_toremove[i]}); // Tell client to remove this from live game
+            output.data.items.del.push({"_id": ids_toremove[i]});
         }
 
-        for (let a in profileData.Inventory.items) { //find correct item by id and delete it
+        for (let a in profileData.Inventory.items) {
             if (profileData.Inventory.items[a]._id === ids_toremove[i]) {
-                profileData.Inventory.items.splice(a, 1);  //remove item from pmcData
+                profileData.Inventory.items.splice(a, 1);
             }
         }
     }

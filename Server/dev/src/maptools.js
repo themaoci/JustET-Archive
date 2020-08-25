@@ -5,6 +5,32 @@ const json = require("./json.js");
 
 const inputDir = "input/maps/";
 const outputDir = "output/locations/";
+const questLootTypes = [
+  "quest",
+  "giroscope",
+  "controller",
+  "case_0060",
+  "loot_letter",
+  "blood_probe",
+  "loot_letter",
+  "009_2_doc",
+  "010_4_flash",
+  "009_1_nout",
+  "008_5_key",
+  "010_5_drive",
+  "loot 56(28)",
+  "loot_case",
+  "SAS",
+  "chem_container",
+  "huntsman_001_message2284354",
+  "loot_shop_goshan_vedodmost5861492",
+  "loot_shop_oli_vedodmost5860728",
+  "loot_shop_idea_vedodmost5868202",
+  "loot_shop_oli_vedodmost_part25862028",
+  "loot_book_venskiy5864616",
+  "loot_book_osnovu5868064",
+  "Loot 56 (28)6937524"
+];
 
 function getDirList(path) {
   return fs.readdirSync(path).filter(function(file) {
@@ -59,33 +85,6 @@ function getMapLoot() {
 }
 
 function stripMapLootDuplicates() {
-  const questLootTypes = [
-    "quest",
-    "giroscope",
-    "controller",
-    "case_0060",
-    "loot_letter",
-    "blood_probe",
-    "loot_letter",
-    "009_2_doc",
-    "010_4_flash",
-    "009_1_nout",
-    "008_5_key",
-    "010_5_drive",
-    "loot 56(28)",
-    "loot_case",
-    "SAS",
-    "chem_container",
-    "huntsman_001_message2284354",
-    "loot_shop_goshan_vedodmost5861492",
-    "loot_shop_oli_vedodmost5860728",
-    "loot_shop_idea_vedodmost5868202",
-    "loot_shop_oli_vedodmost_part25862028",
-    "loot_book_venskiy5864616",
-    "loot_book_osnovu5868064",
-    "Loot 56 (28)6937524"
-  ];
-
   for (let mapName of getDirList(outputDir)) {
     if (mapName === "hideout") {
       continue;
@@ -234,10 +233,20 @@ function renameMapLoot() {
       // set target directory
       if (fileData.IsStatic) {
         target = dirName + "static/" + fileData.Id + "/" + "loot_" + file + ".json";
-      } else if (fileData.Id.includes("quest_")) {
-        target = dirName + "forced/" + fileData.Id + "/" + "loot_" + file + ".json";
       } else {
-        target = dirName + "dynamic/" + fileData.Id + "/" + "loot_" + file + ".json";
+        let found = false;
+
+        for (let type of questLootTypes) {
+          if (fileData.Id.includes(type)) {
+            target = dirName + "forced/" + fileData.Id + "/" + "loot_" + file + ".json";
+            found = true;
+            break;
+          }
+        }
+
+        if (!found) {
+          target = dirName + "dynamic/" + fileData.Id + "/" + "loot_" + file + ".json";
+        }
       }
 
       // create missing dir

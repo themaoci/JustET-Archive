@@ -53,6 +53,10 @@ class ProfileServer {
         return this.getProfile(sessionID, 'scav');
     }
 
+    setScavProfile(sessionID, scavData) {
+        this.profiles[sessionID]['scav'] = scavData;
+    }
+
     createProfile(info, sessionID) {
         let account = account_f.accountServer.find(sessionID);
         let folder = account_f.getPath(account.id);

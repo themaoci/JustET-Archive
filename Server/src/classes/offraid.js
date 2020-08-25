@@ -155,7 +155,6 @@ function saveProgress(offraidData, sessionID) {
 
     // set pmc data
     if (!isPlayerScav) {
-
         pmcData.Info.Level = offraidData.profile.Info.Level;
         pmcData.Skills = offraidData.profile.Skills;
         pmcData.Stats = offraidData.profile.Stats;
@@ -176,9 +175,6 @@ function saveProgress(offraidData, sessionID) {
             pmcData.Info.Experience = 13129881;
         }
 
-        // set player health now
-        health_f.healthServer.applyHealth(pmcData, sessionID);
-
         // Remove the Lab card
         removeLabKeyCard(offraidData);
     }
@@ -190,9 +186,12 @@ function saveProgress(offraidData, sessionID) {
     // set profile equipment to the raid equipment
     if (isPlayerScav) {
         scavData = setInventory(scavData, offraidData.profile);
+        health_f.healthServer.initializeHealth(sessionID);
+        profile_f.profileServer.setScavProfile(sessionID, scavData);
         return;
     } else {
         pmcData = setInventory(pmcData, offraidData.profile);
+        health_f.healthServer.applyHealth(pmcData, sessionID);
     }
 
     // remove inventory if player died and send insurance items

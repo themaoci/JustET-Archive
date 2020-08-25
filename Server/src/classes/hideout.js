@@ -10,7 +10,7 @@ function initialize() {
 	scavcase = json.parse(json.read(db.user.cache.hideout_scavcase));
 }
 
-function hideoutUpgrade(pmcData, body, sessionID) {
+function upgrade(pmcData, body, sessionID) {
 	for (let itemToPay of body.items) {
 		for (let inventoryItem in pmcData.Inventory.items) {
 			if (pmcData.Inventory.items[inventoryItem]._id !== itemToPay.id) {
@@ -51,7 +51,7 @@ function hideoutUpgrade(pmcData, body, sessionID) {
 
 // validating the upgrade
 // TODO: apply bonuses or is it automatically applied?
-function hideoutUpgradeComplete(pmcData, body, sessionID) {
+function upgradeComplete(pmcData, body, sessionID) {
 	for (let hideoutArea of pmcData.Hideout.Areas) {
 		if (hideoutArea.type !== body.areaType) {
 			continue;
@@ -89,7 +89,7 @@ function hideoutUpgradeComplete(pmcData, body, sessionID) {
 }
 
 // move items from hideout
-function hideoutPutItemsInAreaSlots(pmcData, body, sessionID) {
+function putItemsInAreaSlots(pmcData, body, sessionID) {
 	let output = item_f.itemServer.getOutput();
 
 	for (let itemToMove in body.items) {
@@ -111,10 +111,18 @@ function hideoutPutItemsInAreaSlots(pmcData, body, sessionID) {
 							"upd": inventoryItem.upd
 						}
 					]
-				};
-
-				pmcData.Hideout.Areas[area].slots.push(slot_to_add);
+				}
+				let slot_position = parseInt(itemToMove);
+				if(pmcData.Hideout.Areas[area].slots[slot_position] === undefined)
+				{
+					pmcData.Hideout.Areas[area].slots.push(slot_to_add)
+				}
+				else
+				{
+					pmcData.Hideout.Areas[area].slots.splice(slot_position, 1, slot_to_add);
+				}
 				output = move_f.removeItem(pmcData, inventoryItem._id, output, sessionID);
+
 			}
 		}
 	}
@@ -122,29 +130,54 @@ function hideoutPutItemsInAreaSlots(pmcData, body, sessionID) {
 	return output;
 }
 
-function hideoutTakeItemsFromAreaSlots(pmcData, body, sessionID) {
+function takeItemsFromAreaSlots(pmcData, body, sessionID) {
 	let output = item_f.itemServer.getOutput();
 
 	for (let area in pmcData.Hideout.Areas) {
-		if (pmcData.Hideout.Areas[area].type !== body.areaType) {
-			continue;
+		if (pmcData.Hideout.Areas[area].type !== body.areaType) { continue; }
+
+		if(pmcData.Hideout.Areas[area].type == 4)
+		{	
+			let itemToMove = pmcData.Hideout.Areas[area].slots[body.slots[0]].item[0];
+			let newReq = {
+				"item_id": itemToMove._tpl,
+				"count": 1,
+				"tid": "ragfair"
+			};
+			output = move_f.addItem(pmcData, newReq, output, sessionID);
+
+			pmcData = profile_f.profileServer.getPmcProfile(sessionID);
+			output.data.items.new[0].upd = itemToMove.upd;
+
+			for( let item in pmcData.Inventory.items )
+			{
+				if( pmcData.Inventory.items[item]._id == output.data.items.new[0]._id)
+				{
+					pmcData.Inventory.items[item].upd = itemToMove.upd;
+				}
+			}
+			pmcData.Hideout.Areas[area].slots[body.slots[0]] = {"item" : null};			
+		}
+		else
+		{
+			let newReq = {
+				"item_id": pmcData.Hideout.Areas[area].slots[0].item[0]._tpl,
+				"count": 1,
+				"tid": "ragfair"
+			};
+			
+			output = move_f.addItem(pmcData, newReq, output, sessionID);
+			pmcData = profile_f.profileServer.getPmcProfile(sessionID);
+			pmcData.Hideout.Areas[area].slots.splice(0, 1);
 		}
 
-		let newReq = {
-			"item_id": pmcData.Hideout.Areas[area].slots[0].item[0]._tpl,
-			"count": 1,
-			"tid": "ragfair"
-		};
-		
-		output = move_f.addItem(pmcData, newReq, output, sessionID);
-		pmcData = profile_f.profileServer.getPmcProfile(sessionID);
-		pmcData.Hideout.Areas[area].slots.splice(0, 1);
+
 	}
 
 	return output;
 }
 
-function hideoutToggleArea(pmcData, body, sessionID) {
+function toggleArea(pmcData, body, sessionID) {
 	for (let area in pmcData.Hideout.Areas) {
 		if (pmcData.Hideout.Areas[area].type == body.areaType) {	
 			pmcData.Hideout.Areas[area].active = body.enabled;
@@ -154,7 +187,7 @@ function hideoutToggleArea(pmcData, body, sessionID) {
 	return item_f.itemServer.getOutput();
 }
 
-function hideoutSingleProductionStart(pmcData, body, sessionID) {
+function singleProductionStart(pmcData, body, sessionID) {
 	registerProduction(pmcData, body, sessionID);
 
 	let output = item_f.itemServer.getOutput();
@@ -166,7 +199,7 @@ function hideoutSingleProductionStart(pmcData, body, sessionID) {
 	return output;
 }
 
-function hideoutScavCaseProductionStart(pmcData, body, sessionID) {
+function scavCaseProductionStart(pmcData, body, sessionID) {
 	for (let moneyToEdit of body.items) {
 		for (let inventoryItem in pmcData.Inventory.items) {
 			if (pmcData.Inventory.items[inventoryItem]._id === moneyToEdit.id) {
@@ -220,12 +253,12 @@ function hideoutScavCaseProductionStart(pmcData, body, sessionID) {
 	return item_f.itemServer.getOutput();
 }
 
-function hideoutContinuousProductionStart(pmcData, body, sessionID) {
+function continuousProductionStart(pmcData, body, sessionID) {
 	registerProduction(pmcData, body, sessionID);
 	return item_f.itemServer.getOutput();
 }
 
-function hideoutTakeProduction(pmcData, body, sessionID) {
+function takeProduction(pmcData, body, sessionID) {
 	let output = item_f.itemServer.getOutput();
 
 	for (let receipe in production.data) {	
@@ -303,12 +336,12 @@ function registerProduction(pmcData, body, sessionID) {
 }
 
 module.exports.initialize = initialize;
-module.exports.hideoutUpgrade = hideoutUpgrade;
-module.exports.hideoutUpgradeComplete = hideoutUpgradeComplete;
-module.exports.hideoutPutItemsInAreaSlots = hideoutPutItemsInAreaSlots;
-module.exports.hideoutTakeItemsFromAreaSlots = hideoutTakeItemsFromAreaSlots;
-module.exports.hideoutToggleArea = hideoutToggleArea;
-module.exports.hideoutSingleProductionStart  = hideoutSingleProductionStart;
-module.exports.hideoutContinuousProductionStart = hideoutContinuousProductionStart;
-module.exports.hideoutScavCaseProductionStart = hideoutScavCaseProductionStart;
-module.exports.hideoutTakeProduction = hideoutTakeProduction;
+module.exports.upgrade = upgrade;
+module.exports.upgradeComplete = upgradeComplete;
+module.exports.putItemsInAreaSlots = putItemsInAreaSlots;
+module.exports.takeItemsFromAreaSlots = takeItemsFromAreaSlots;
+module.exports.toggleArea = toggleArea;
+module.exports.singleProductionStart  = singleProductionStart;
+module.exports.continuousProductionStart = continuousProductionStart;
+module.exports.scavCaseProductionStart = scavCaseProductionStart;
+module.exports.takeProduction = takeProduction;

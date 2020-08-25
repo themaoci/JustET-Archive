@@ -244,6 +244,23 @@ function findItemById(items, id) {
     return false;
 }
 
+/*
+* Find in the player profile the template of an given id
+* input : character data, item id from inventory
+* output : the whole item object, false if not found
+*/
+function findInventoryItemById(pmcData,idToFind)
+{
+    for(let item of pmcData.Inventory.items)
+    {
+        if(item._id == idToFind)
+        {
+            return item;
+        }
+    }
+    return false;
+}
+
 /* Recursively checks if the given item is
 * inside the stash, that is it has the stash as
 * ancestor with slotId=hideout
@@ -682,6 +699,7 @@ module.exports.templatesWithParent = templatesWithParent;
 module.exports.isCategory = isCategory;
 module.exports.childrenCategories = childrenCategories;
 module.exports.recheckInventoryFreeSpace = recheckInventoryFreeSpace;
+module.exports.isMoneyTpl = isMoneyTpl;
 module.exports.getCurrency = getCurrency;
 module.exports.inRUB = inRUB;
 module.exports.fromRUB = fromRUB;
@@ -699,3 +717,4 @@ module.exports.replaceIDs = replaceIDs;
 module.exports.splitStack = splitStack;
 module.exports.clone = clone;
 module.exports.arrayIntersect = arrayIntersect;
+module.exports.findInventoryItemById = findInventoryItemById;

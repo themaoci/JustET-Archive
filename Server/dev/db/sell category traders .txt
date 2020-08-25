@@ -1,0 +1,32 @@
+
+
+prapor : "weapons parts",weapons,ammo,special
+
+therapist : "medical","provision","barter/other","barter/valuables","barter/medical",keys,info,maps
+
+fence : everything
+
+skier : weaponmods/functionalmods, weaponmods/gearmods, weapons/carabines,weapons/rifles
+
+peacekeeper : allweapons, allweaponparts, ammo, provisons,medical
+
+mecanic : weapons, allweaponsparts, ammo, special, info, allbarter
+
+ragman : gear
+
+jaeger : weapons/carabines, weapons/shotguns, weapons/melee, weapon/pistols, weapons/marksman, ammo, provisions
+
+
+		"5b47574386f77428ca22b33e", barter
+		"5b47574386f77428ca22b33f",	gear
+		"5b5f71b386f774093f2ecf11",	mods/functional
+		"5b5f750686f774093e6cb503",	mods/gear
+		"5b5f75b986f77447ec5d7710",	mods/vital
+		"5b5f78dc86f77409407a7f8e",	weapons
+		"5b47574386f77428ca22b346",	ammo
+		"5b47574386f77428ca22b340",	provisions
+		"5b47574386f77428ca22b344",	medical
+		"5b47574386f77428ca22b342",	keys
+		"5b47574386f77428ca22b341",	info
+		"5b47574386f77428ca22b345"	special
+		"5b47574386f77428ca22b343"	maps

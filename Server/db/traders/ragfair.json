@@ -1,7 +1,7 @@
 {
 	"_id": "ragfair",
 	"working": true,
-	"customization_seller": true,
+	"customization_seller": false,
 	"name": "<Настоящее имя неизвестно>",
 	"surname": "",
 	"nickname": "",
