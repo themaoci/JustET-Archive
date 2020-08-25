@@ -36,10 +36,16 @@ function SaveBuild(pmcData, body, sessionID) {
 }
 
 function RemoveBuild(pmcData, body, sessionID) {
-	let savedBuilds = json.parse(json.read(getPath(sessionID)));
+    let savedBuilds = json.parse(json.read(getPath(sessionID)));
 
-	delete savedBuilds[body.name];
-	json.write(getPath(sessionID), savedBuilds);
+    for (let name in savedBuilds) {
+        if (savedBuilds[name].id === body.id) {
+            delete savedBuilds[name];
+            json.write(getPath(sessionID), savedBuilds);
+            break;
+        }
+    }
+
     return item_f.itemServer.getOutput();
 }
 

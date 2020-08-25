@@ -22,6 +22,35 @@ function getQuestsCache() {
     return questsCache;
 }
 
+function processReward(reward) {
+    let rewardItems = [];
+    let targets;
+    let mods = [];
+
+    // separate base item and mods, fix stacks
+    for (let item of reward.items) {
+        if (item._id === reward.target) {
+            targets = itm_hf.splitStack(item);
+        }
+        else {
+            mods.push(item);
+        }
+    }
+
+    // add mods to the base items, fix ids
+    for (let target of targets) {
+        let items = [ target ];
+
+        for (let mod of mods) {
+            items.push(itm_hf.clone(mod));
+        }
+
+        rewardItems = rewardItems.concat(itm_hf.replaceIDs(null, items));
+    }
+
+    return rewardItems;
+}
+
 /* Gets a flat list of reward items for the given quest and state
 * input: quest, a quest object
 * input: state, the quest status that holds the items (Started, Success, Fail)
@@ -32,23 +61,7 @@ function getQuestRewardItems(quest, state) {
 
     for (let reward of quest.rewards[state]) {
         if ("Item" === reward.type) {
-            for (let rewardItem of reward.items) {
-
-                let itemTmplData = json.parse(json.read(db.items[rewardItem._tpl]));
-
-                if ("upd" in rewardItem && "StackObjectsCount" in rewardItem.upd && itemTmplData._props.StackMaxSize === 1) {
-                    let count = rewardItem.upd.StackObjectsCount;
-
-                    rewardItem.upd.StackObjectsCount = 1;
-
-                    for (let i = 0; i < count; i++) {
-                        questRewards.push(itm_hf.clone(rewardItem));
-                    }
-                }
-                else {
-                    questRewards.push(rewardItem);
-                }
-            }
+            questRewards = questRewards.concat(processReward(reward));
         }
     }
 
@@ -146,30 +159,52 @@ function completeQuest(pmcData, body, sessionID) {
 function handoverQuest(pmcData, body, sessionID) {
     const quest = json.parse(json.read(db.quests[body.qid]));
     let output = item_f.itemServer.getOutput();
+    let types = ["HandoverItem", "WeaponAssembly"];
+    let handoverMode = true;
     let value = 0;
     let counter = 0;
     let amount;
 
-    // Get quest condition item count
     for (let condition of quest.conditions.AvailableForFinish) {
-        if (condition._parent === "HandoverItem" && condition._props.id === body.conditionId) {
-            value = condition._props.value;
+        if (condition._props.id === body.conditionId && types.includes(condition._parent)) {
+            value = parseInt(condition._props.value);
+            handoverMode = condition._parent === types[0];
+
             break;
         }
     }
 
-    if (value === 0) {
+    if (handoverMode && value === 0) {
         logger.logError("Quest handover error: condition not found or incorrect value. qid=" + body.qid + ", condition=" + body.conditionId);
         return output;
     }
 
     for (let itemHandover of body.items) {
-        amount = Math.min(itemHandover.count, value - counter);
-        counter += amount;
-        changeItemStack(pmcData, itemHandover.id, itemHandover.count - amount, output);
+        if (handoverMode) {
+            // remove the right quantity of given items
+            amount = Math.min(itemHandover.count, value - counter);
+            counter += amount;
+            changeItemStack(pmcData, itemHandover.id, itemHandover.count - amount, output);
 
-        if (counter === value) {
-            break;
+            if (counter === value) {
+                break;
+            }
+        }
+        else {
+            // for weapon assembly quests, remove the item and its children
+            let toRemove = itm_hf.findAndReturnChildren(pmcData, itemHandover.id);
+            let index = pmcData.Inventory.items.length;
+
+            // important: don't tell the client to remove the attachments, it will handle it
+            output.data.items.del.push({ "_id": itemHandover.id });
+            counter = 1;
+
+            // important: loop backward when removing items from the array we're looping on
+            while (index --> 0) {
+                if (toRemove.includes(pmcData.Inventory.items[index]._id)) {
+                    pmcData.Inventory.items.splice(index, 1);
+                }
+            }
         }
     }
 

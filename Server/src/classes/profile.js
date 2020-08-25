@@ -56,8 +56,8 @@ class ProfileServer {
     createProfile(info, sessionID) {
         let account = account_f.accountServer.find(sessionID);
         let folder = account_f.getPath(account.id);
-        let pmcData = json.parse(json.read(db.profile.character[account.edition + "_" + info.side.toLowerCase()]));
-        let storage = json.parse(json.read(db.profile.storage));
+        let pmcData = json.parse(json.read(db.profile[account.edition]["character_" + info.side.toLowerCase()]));
+        let storage = json.parse(json.read(db.profile[account.edition]["storage_" + info.side.toLowerCase()]));
 
         // pmc info
         pmcData._id = "pmc" + account.id;
@@ -69,7 +69,6 @@ class ProfileServer {
 
         // storage info
         storage.data._id = "pmc" + account.id;
-        storage.data.suites = (info.side === "Usec") ? ["5cde9ec17d6c8b04723cf479", "5cde9e957d6c8b0474535da7"] : ["5cd946231388ce000d572fe3", "5cd945d71388ce000a659dfb"];
 
         // set trader standing      
         for (let trader of Object.keys(db.traders)) {

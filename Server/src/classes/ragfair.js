@@ -102,30 +102,29 @@ function isInFilter(id, item, slot) {
 function countCategories(response) {
     let categ = {};
 
-    for (let offer of response.data.offers) {
+    for (let offer of response.offers) {
         let item = offer.items[0]; // only the first item can have presets
 
         categ[item._tpl] = categ[item._tpl] || 0;
         categ[item._tpl]++;
     }
-
     // not in search mode, add back non-weapon items
-    for (let c in response.data.categories) {
+    for (let c in response.categories) {
         if (!categ[c]) {
             categ[c] = 1;
         }
     }
 
-    response.data.categories = categ;
+    response.categories = categ;
 }
 
 function getOffers(request) {
-    let response = json.parse(json.read(db.ragfair.search));
+    let response = {"categories": {}, "offers": [], "offersCount": 10, "selectedCategory": "5b5f78dc86f77409407a7f8e"};
     let itemsToAdd = [];
     let offers = [];
 
-    if (request.linkedSearchId || request.neededSearchId) {
-        response.data.categories = {};
+    if (!request.linkedSearchId && !request.neededSearchId) {
+        response.categories = (trader_f.traderServer.getAssort("ragfair")).data.loyal_level_items;
     }
 
     if (request.buildCount) {
@@ -151,14 +150,13 @@ function getOffers(request) {
         }
     }
 
-    for (let it of itemsToAdd) {
-        offers = offers.concat(createOffer(it, request.onlyFunctional, request.buildCount === 0));
+    for (let item of itemsToAdd) {
+        offers = offers.concat(createOffer(item, request.onlyFunctional, request.buildCount === 0));
     }
 
-    response.data.offers = sortOffers(request, offers);
+    response.offers = sortOffers(request, offers);
     countCategories(response);
-
-    return json.stringify(response);
+    return response;
 }
 
 function getLinkedSearchList(linkedSearchId) {

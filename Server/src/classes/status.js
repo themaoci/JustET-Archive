@@ -62,20 +62,22 @@ function bindItem(pmcData, body, sessionID) {
 function examineItem(pmcData, body, sessionID) {
     let returned = "";
 
-    // ragfair
-    if ("fromOwner" in body && body.fromOwner.type === "RagFair") {
-        returned = body.fromOwner.id;
-    }
-
-    // trader
-    if ("fromOwner" in body && body.fromOwner.type === "Trader") {
-        let tmpTraderAssort = trader_f.traderServer.getAssort(body.fromOwner.id);
-
-        for (let item of tmpTraderAssort.data.items) {
-            if (item._id === body.item) {
-                logger.logInfo("Found trader with examined item: " + item._id, "", "", true);
-                returned = item._tpl;
-                break;
+    // outside player profile
+    if ("fromOwner" in body) {
+        if (body.fromOwner.type === "RagFair") {
+            body.fromOwner.type = "Trader";
+            body.fromOwner.id = "ragfair";
+        }
+    
+        if (body.fromOwner.type === "Trader") {
+            let tmpTraderAssort = trader_f.traderServer.getAssort(body.fromOwner.id);
+    
+            for (let item of tmpTraderAssort.data.items) {
+                if (item._id === body.item) {
+                    logger.logInfo("Found trader with examined item: " + item._id, "", "", true);
+                    returned = item._tpl;
+                    break;
+                }
             }
         }
     }

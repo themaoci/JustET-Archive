@@ -356,14 +356,13 @@ function addItem(pmcData, body, output, sessionID, foundInRaid = false) {
     let stashY = PlayerStash[1];
     let stashX = PlayerStash[0];
     let items;
+
     if (body.item_id in globals.data.ItemPresets) {
         items = globals.data.ItemPresets[body.item_id]._items;
         body.item_id = items[0]._id;
-    }
-    else if ("579dc571d53a0658a154fbec" === body.tid) {
+    } else if (body.tid === "579dc571d53a0658a154fbec") {
         items = [{_id: body.item_id, _tpl: body.item_id}];
-    }
-    else {
+    } else {
         items = trader_f.traderServer.getAssort(body.tid).data.items;
     }
 

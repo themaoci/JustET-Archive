@@ -643,6 +643,31 @@ function replaceIDs(pmcData, items) {
     return items;
 }
 
+/* split item stack if it exceeds StackMaxSize
+*  input: an item
+*  output: an array of these items with StackObjectsCount <= StackMaxSize
+*/
+function splitStack(item) {
+    if (!("upd" in item) || !("StackObjectsCount" in item.upd)) {
+        return [item];
+    }
+
+    let maxStack = json.parse(json.read(db.items[item._tpl]))._props.StackMaxSize;
+    let count = item.upd.StackObjectsCount;
+    let stacks = [];
+
+    while (count) {
+        let amount = Math.min(count, maxStack);
+        let newStack = clone(item);
+
+        newStack.upd.StackObjectsCount = amount;
+        count -= amount;
+        stacks.push(newStack);
+    }
+
+    return stacks;
+}
+
 function clone(x) {
     return json.parse(json.stringify(x));
 }
@@ -671,5 +696,6 @@ module.exports.findAndReturnChildrenByItems = findAndReturnChildrenByItems;
 module.exports.isDogtag = isDogtag;
 module.exports.isNotSellable = isNotSellable;
 module.exports.replaceIDs = replaceIDs;
+module.exports.splitStack = splitStack;
 module.exports.clone = clone;
 module.exports.arrayIntersect = arrayIntersect;

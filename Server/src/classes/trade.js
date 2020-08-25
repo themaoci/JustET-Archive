@@ -1,13 +1,16 @@
 "use strict";
 
 function buyItem(pmcData, body, sessionID) {
+    if (body.tid === "579dc571d53a0658a154fbec") {
+        body.tid = "ragfair";
+    }
+
     if (!itm_hf.payMoney(pmcData, body, sessionID)) {
         logger.logError("no money found");
         return "";
     }
 
     logger.logSuccess("Bought item: " + body.item_id);
-    
     return move_f.addItem(pmcData, body, item_f.itemServer.getOutput(), sessionID);
 }
 
@@ -76,7 +79,7 @@ function confirmRagfairTrading(pmcData, body, sessionID) {
         body = {
             "Action": "TradingConfirm",
             "type": "buy_from_trader",
-            "tid": "579dc571d53a0658a154fbec",
+            "tid": "ragfair",
             "item_id": offer.id,
             "count": offer.count,
             "scheme_id": 0,

@@ -1,7 +1,6 @@
 "use strict";
 
 const fs = require('fs');
-const os = require('os');
 const adler32 = require('adler32');
 
 function clearString(string) {
@@ -103,23 +102,6 @@ function generateNewId(prefix) {
     return retVal + sign;
 }
 
-function getLocalIpAddress() {
-    let address = "127.0.0.1";
-    let ifaces = os.networkInterfaces();
-
-    for (let dev in ifaces) {
-        let iface = ifaces[dev].filter(function (details) {
-            return details.family === 'IPv4' && details.internal === false;
-        });
-
-        if (iface.length > 0) {
-            address = iface[0].address;
-        }
-    }
-
-    return address;
-}
-
 module.exports.clearString = clearString;
 module.exports.adlerGen = adlerGen;
 module.exports.getRandomInt = getRandomInt;
@@ -133,4 +115,3 @@ module.exports.makeSign = makeSign;
 module.exports.generateNewItemId = generateNewItemId;
 module.exports.generateNewAssortId = generateNewAssortId;
 module.exports.generateNewDialogueId = generateNewDialogueId;
-module.exports.getLocalIpAddress = getLocalIpAddress;

@@ -17,7 +17,7 @@ function getProfileStatus(url, info, sessionID) {
 }
 
 function getServer(url, info, sessionID) {
-    return '{"err":0, "errmsg":null, "data":[{"ip":"' + server.getIp() + '", "port":"' + server.getHttpsPort() + '"}]}';
+    return '{"err":0, "errmsg":null, "data":[{"ip":"' + server.getIp() + '", "port":"' + server.getPort() + '"}]}';
 }
 
 function validateGameVersion(url, info, sessionID) {

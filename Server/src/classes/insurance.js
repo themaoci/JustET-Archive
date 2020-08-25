@@ -55,7 +55,7 @@ class InsuranceServer {
 
     /* store lost pmc gear */
     storeLostGear(pmcData, offraidData, preRaidGear, sessionID) {
-        console.log(offraidData);
+        //console.log(offraidData);
 
         // Build a hash table to reduce loops
         const preRaidGearHash = {};

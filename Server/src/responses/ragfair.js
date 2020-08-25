@@ -1,7 +1,7 @@
 "use strict";
 
 function searchRagfair(url, info, sessionID) {
-    return ragfair_f.getOffers(info);
+    return json.stringify({"err": 0, "errmsg": null, "data": ragfair_f.getOffers(info)});
 }
 
 router.addStaticRoute("/client/ragfair/search", searchRagfair);

@@ -183,7 +183,7 @@ function generateRagfairTrader() {
     let templateFiles = fs.readdirSync(outputDir + "templates/items/");
     let globalFiles = (json.parse(json.read(inputDir + "prod.escapefromtarkov.com.client.globals.txt")).data.ItemPresets);
 
-    /*
+    /* single items */
     for (let file in itemFiles) {
         let filePath = outputDir + "items/" + itemFiles[file];
         let fileData = json.parse(json.read(filePath));
@@ -205,13 +205,12 @@ function generateRagfairTrader() {
         }
 
         // save everything
-        json.write(outputDir + "assort/579dc571d53a0658a154fbec/items/" + fileName + ".json", {_id: fileData._id, _tpl: fileData._id, parentId: "hideout", slotId: "hideout", upd: {UnlimitedCount: true, StackObjectsCount: 500000}});
-        json.write(outputDir + "assort/579dc571d53a0658a154fbec/barter_Scheme/" + fileName + ".json", [[{count: price, _tpl: "5449016a4bdc2d6f028b456f"}]]);
-        json.write(outputDir + "assort/579dc571d53a0658a154fbec/loyal_level_items/" + fileName + ".json", 1);
+        json.write(outputDir + "assort/ragfair/items/" + fileName + ".json", {_id: fileData._id, _tpl: fileData._id, parentId: "hideout", slotId: "hideout", upd: {UnlimitedCount: true, StackObjectsCount: 500000}});
+        json.write(outputDir + "assort/ragfair/barter_scheme/" + fileName + ".json", [[{count: price, _tpl: "5449016a4bdc2d6f028b456f"}]]);
+        json.write(outputDir + "assort/ragfair/loyal_level_items/" + fileName + ".json", 1);
 
-        console.log("done: 579dc571d53a0658a154fbec <- " + fileName);
+        console.log("done: ragfair <- " + fileName);
     }
-    */
 
     /* presets */
     for (let file in globalFiles) {
@@ -241,10 +240,15 @@ function generateRagfairTrader() {
         }
 
         /* base item */
-        json.write(outputDir + "assort/ragfair/items/" + presetId + ".json", {_id: presetId, _tpl: globalFiles[file]._items[0]._tpl, parentId: "hideout", slotId: "hideout", upd: {UnlimitedCount: true, StackObjectsCount: 500000}});
-        json.write(outputDir + "assort/ragfair/barter_Scheme/" + presetId + ".json", [[{count: price, _tpl: "5449016a4bdc2d6f028b456f"}]]);
-        json.write(outputDir + "assort/ragfair/loyal_level_items/" + presetId + ".json", 1);
-        console.log("done: ragfair <- " + presetId);
+        for (let item of globalFiles[file]._items) {
+            if (item._id === globalFiles[file]._parent) {
+                json.write(outputDir + "assort/ragfair/items/" + presetId + ".json", {_id: presetId, _tpl: item._tpl, parentId: "hideout", slotId: "hideout", upd: {UnlimitedCount: true, StackObjectsCount: 500000}});
+                json.write(outputDir + "assort/ragfair/barter_scheme/" + presetId + ".json", [[{count: price, _tpl: "5449016a4bdc2d6f028b456f"}]]);
+                json.write(outputDir + "assort/ragfair/loyal_level_items/" + presetId + ".json", 1);
+                console.log("done: ragfair <- " + presetId);
+                break;
+            }
+        }
     }
 }
 
@@ -265,8 +269,8 @@ function splitAll() {
     templates();
     assort();
     locales();
+    generateRagfairTrader();
 */
-
     generateRagfairTrader();
 
     console.log("Splitting done");

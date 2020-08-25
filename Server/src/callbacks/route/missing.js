@@ -29,15 +29,15 @@ function route() {
         "mods": "user/cache/mods.json"
     };
 
-    for (let trader of utility.getDirList("db/assort/")) {
+    for (let trader in db.traders) {
         db.user.cache["assort_" + trader] = "user/cache/assort_" + trader + ".json";
 
-        if (fs.existsSync("db/assort/" + trader + "/customization/")) {
+        if ("customization" in db.assort[trader]) {
             db.user.cache["customization_" + trader] = "user/cache/customization_" + trader + ".json";
         }
     }
 
-    for (let locale of utility.getDirList("db/locales/")) {
+    for (let locale in db.locales) {
         db.user.cache["locale_" + locale] = "user/cache/locale_" + locale + ".json";
     }
 

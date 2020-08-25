@@ -133,11 +133,10 @@ function hideoutTakeItemsFromAreaSlots(pmcData, body, sessionID) {
 		let newReq = {
 			"item_id": pmcData.Hideout.Areas[area].slots[0].item[0]._tpl,
 			"count": 1,
-			"tid": "579dc571d53a0658a154fbec"
+			"tid": "ragfair"
 		};
 		
 		output = move_f.addItem(pmcData, newReq, output, sessionID);
-		
 		pmcData = profile_f.profileServer.getPmcProfile(sessionID);
 		pmcData.Hideout.Areas[area].slots.splice(0, 1);
 	}
@@ -252,7 +251,7 @@ function hideoutTakeProduction(pmcData, body, sessionID) {
 		let newReq = {
 			"item_id": id,
 			"count": production.data[receipe].count,
-			"tid": "579dc571d53a0658a154fbec"
+			"tid": "ragfair"
 		};
 		
 		return move_f.addItem(pmcData, newReq, output, sessionID, true);	
@@ -275,7 +274,7 @@ function hideoutTakeProduction(pmcData, body, sessionID) {
 				let newReq = {
 					"item_id": itemProd._tpl,
 					"count": 1,
-					"tid": "579dc571d53a0658a154fbec"
+					"tid": "ragfair"
 				};
 
 				output = move_f.addItem(pmcData, newReq, output, sessionID, true);

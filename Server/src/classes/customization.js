@@ -37,8 +37,16 @@ function wearClothing(pmcData, body, sessionID) {
 function buyClothing(pmcData, body, sessionID) {
 	let output = item_f.itemServer.getOutput();
 	let storage = json.parse(json.read(getPath(sessionID)));
-	let offers = trader_f.traderServer.getAllCustomization();
+	let offers = trader_f.traderServer.getAllCustomization(sessionID);
 
+	// check if outfit already exists
+	for (let suiteId of storage.data.suites) {
+		if (suiteId === body.offer) {
+			return output;
+		}
+	}
+
+	// pay items
 	for (let sellItem in body.items) {
 		for (let item in pmcData.Inventory.items) {
 			if (pmcData.Inventory.items[item]._id === sellItem.id) {
@@ -62,6 +70,7 @@ function buyClothing(pmcData, body, sessionID) {
 		}
 	}
 
+	// add outfit to storage
 	for (let offer of offers) {
 		if (body.offer === offer._id) {
 			storage.data.suites.push(offer.suiteId);

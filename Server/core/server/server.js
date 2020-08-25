@@ -27,8 +27,8 @@ class Server {
         this.receiveCallback = {};
         this.respondCallback = {};
         this.ip = settings.server.ip;
-        this.httpsPort = settings.server.httpsPort;
-        this.backendUrl = "https://" + this.ip + ":" + this.httpsPort;
+        this.port = settings.server.port;
+        this.backendUrl = "https://" + this.ip + ":" + this.port;
         this.version = "dev-r23.1";
         this.mime = {
             txt: 'text/plain',
@@ -80,8 +80,8 @@ class Server {
         return this.ip;
     }
 
-    getHttpsPort() {
-        return this.httpsPort;
+    getPort() {
+        return this.port;
     }
 
     getBackendUrl() {
@@ -192,25 +192,18 @@ class Server {
         }
     }
 
-    start() {
-        /* set the ip */
-        if (settings.server.generateIp === true) {
-            this.ip = utility.getLocalIpAddress();
-        }
-
-        this.backendUrl = "https://" + this.ip + ":" + this.httpsPort;
-    
+    start() {    
         // execute start callback
-        logger.logWarning("Executing callbacks...");
+        logger.logWarning("Server: executing startup callbacks...");
 
         for (let type in this.startCallback) {
             this.startCallback[type]();
         }
 
-        /* create server (https: game, http: launcher) */
+        /* create server */
         let httpsServer = https.createServer(this.generateCertifcate(), (req, res) => {
             this.handleRequest(req, res);
-        }).listen(this.httpsPort, this.ip, function() {
+        }).listen(this.port, this.ip, function() {
             logger.logSuccess("Started server");
         });
 

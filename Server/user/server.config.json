@@ -1,8 +1,7 @@
 {
 	"server": {
 		"ip": "127.0.0.1",
-		"generateIp": false,
-		"httpsPort": 443,
+		"port": 443,
 		"eventPollIntervalSec": 60,
 		"rebuildCache": false
 	},
