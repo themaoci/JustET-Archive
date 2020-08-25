@@ -8,7 +8,8 @@
 		"ShortName": "wild_security_body_2",
 		"Description": "wild_security_body_2",
 		"Side": [
-			"Usec"
+			"Usec",
+			"Bear"
 		],
 		"AvailableAsDefault": false,
 		"Body": "5d28ae2986f7742926686185",

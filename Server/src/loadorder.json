@@ -67,8 +67,8 @@
     "weather_r": "src/responses/weather.js",
     "wishlist_r": "src/responses/wishlist.js",
 
-    "loadsavehandler_c": "src/callbacks/start/savehandler.js",
     "loadstaticdata_c": "src/callbacks/start/staticdata.js",
+    "loadsavehandler_c": "src/callbacks/start/savehandler.js",
     "loadaccounts_c": "src/callbacks/start/account.js",
     "loadcustomization_c": "src/callbacks/start/customization.js",
     "hideout_c": "src/callbacks/start/hideout.js",

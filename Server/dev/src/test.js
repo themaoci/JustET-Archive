@@ -7,10 +7,10 @@ const should = require('chai').should();
 const expect = require('chai').expect;
 
 // Global config stuff
-let settings = JSON.parse(readJson(__dirname + "/../../user/server.config.json"));
+let settings = JSON.parse(readJson(__dirname + "/../../user/configs/server.json"));
 
-const url = settings.server.ip;
-const port = settings.server.port;
+const url = settings.ip;
+const port = settings.port;
 const gameVersion = '0.12.3.5985';
 
 let integer = 0;

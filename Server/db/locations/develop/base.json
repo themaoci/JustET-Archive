@@ -1,6 +1,6 @@
 {
-	"Enabled": true,
-	"Locked": false,
+	"Enabled": false,
+	"Locked": true,
 	"Insurance": true,
 	"SafeLocation": false,
 	"Name": "Arena",

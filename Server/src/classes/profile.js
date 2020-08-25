@@ -75,7 +75,7 @@ class ProfileServer {
         storage.data._id = "pmc" + account.id;
 
         // set trader standing      
-        for (let trader of Object.keys(db.traders)) {
+        for (let trader in db.assort) {
             pmcData.TraderStandings[trader] = {
                 "currentLevel": 1,
                 "currentSalesSum": 0,

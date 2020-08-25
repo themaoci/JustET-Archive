@@ -27,16 +27,16 @@ class ScheduledEventHandler {
 	}
 
 	saveToDisk() {
-		json.write(db.user.events_schedule, this.scheduledEvents);
+		json.write(db.user.events.schedule, this.scheduledEvents);
 	}
 
 	loadSchedule() {
-		if (!fs.existsSync(db.user.events_schedule)) {
+		if (!fs.existsSync(db.user.events.schedule)) {
 			this.scheduledEvents = [];
 			return;
 		}
 
-		this.scheduledEvents = json.parse(json.read(db.user.events_schedule));
+		this.scheduledEvents = json.parse(json.read(db.user.events.schedule));
 	}
 
 	processSchedule() {
@@ -82,4 +82,4 @@ function compareEvent(a, b) {
 	return 0;
 }
 
-module.exports.scheduledEventHandler = new ScheduledEventHandler(settings.server.eventPollIntervalSec);
+module.exports.scheduledEventHandler = new ScheduledEventHandler(serverConfig.eventPollIntervalSec);

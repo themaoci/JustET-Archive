@@ -1,7 +1,7 @@
 "use strict";
 
 function cache() {
-    if (!settings.server.rebuildCache) {
+    if (!serverConfig.rebuildCache) {
         return;
     }
     

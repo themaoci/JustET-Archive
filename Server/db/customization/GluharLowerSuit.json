@@ -8,7 +8,8 @@
 		"ShortName": "GluharLowerSuit",
 		"Description": "GluharLowerSuit",
 		"Side": [
-			"Savage"
+			"Usec",
+			"Bear"
 		],
 		"AvailableAsDefault": false,
 		"Feet": "5d5e7f2a86f77427997cfb80"

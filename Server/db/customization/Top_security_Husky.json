@@ -8,7 +8,8 @@
 		"ShortName": "Top_security_Husky",
 		"Description": "Top_security_Husky",
 		"Side": [
-			"Usec"
+			"Usec",
+			"Bear"
 		],
 		"AvailableAsDefault": false,
 		"Body": "5d5e7e7586f77427997cfb7f",

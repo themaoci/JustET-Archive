@@ -88,8 +88,8 @@ class LocationServer {
         let dirs = Object.keys(db.locations[locationName].loot.dynamic);
         let max = output.Loot.length + dirs.length;
 
-        if (settings.gameplay.locationloot[locationName] < max) {
-            max = settings.gameplay.locationloot[locationName];
+        if (gameplayConfig.locationloot[locationName] < max) {
+            max = gameplayConfig.locationloot[locationName];
         }
 
         base = db.locations[locationName].loot.dynamic;

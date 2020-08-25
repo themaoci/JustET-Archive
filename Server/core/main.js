@@ -5,6 +5,6 @@ process.stdout.setEncoding('utf8');
 process.title = "EmuTarkov Server";
 
 /* load server components */
-require('./interpreter.js');
+require('./initializer.js');
 watermark.show();
 server.start();

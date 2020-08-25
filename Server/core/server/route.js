@@ -46,7 +46,7 @@ function loadMod(mod, filepath) {
 function detectChangedMods() {
     let changed = false;
 
-    for (let mod of settings.mods.list) {
+    for (let mod of modsConfig) {
         if (!fs.existsSync(getModFilepath(mod) + "mod.config.json")) {
             changed = true;
             break;
@@ -61,7 +61,7 @@ function detectChangedMods() {
     }
 
     if (changed) {
-        settings.mods.list = [];
+        modsConfig = [];
     }
 
     return changed;
@@ -87,7 +87,7 @@ function detectMissingMods() {
         let found = false;
 
         /* check if mod is already in the list */
-        for (let installed of settings.mods.list) {
+        for (let installed of modsConfig) {
             if (installed.name === config.name) {
                 logger.logInfo("Mod " + mod + " is installed");
                 found = true;
@@ -103,9 +103,9 @@ function detectMissingMods() {
                 process.exit(1);
             }
             logger.logWarning("Mod " + mod + " not installed, adding it to the modlist");
-            settings.mods.list.push({"name": config.name, "author": config.author, "version": config.version, "enabled": true});
-            settings.server.rebuildCache = true;
-            json.write("user/server.config.json", settings);
+            modsConfig.push({"name": config.name, "author": config.author, "version": config.version, "enabled": true});
+            serverConfig.rebuildCache = true;
+            json.write("user/configs/mods.json", modsConfig);
         }
     }
 }
@@ -118,19 +118,18 @@ function isRebuildRequired() {
         return true;
     }
 
-    let modlist = settings.mods.list;
     let cachedlist = json.parse(json.read("user/cache/mods.json"));
 
-    if (modlist.length !== cachedlist.length) {
+    if (modsConfig.length !== cachedlist.length) {
         return true;
     }
 
-    for (let mod in modlist) {
+    for (let mod in modsConfig) {
         /* check against cached list */
-        if (modlist[mod].name !== cachedlist[mod].name
-        || modlist[mod].author !== cachedlist[mod].author
-        || modlist[mod].version !== cachedlist[mod].version
-        || modlist[mod].enabled !== cachedlist[mod].enabled) {
+        if (modsConfig[mod].name !== cachedlist[mod].name
+        || modsConfig[mod].author !== cachedlist[mod].author
+        || modsConfig[mod].version !== cachedlist[mod].version
+        || modsConfig[mod].enabled !== cachedlist[mod].enabled) {
             return true;
         }
     }
@@ -139,9 +138,7 @@ function isRebuildRequired() {
 }
 
 function loadAllMods() {
-    let modList = settings.mods.list;
-
-    for (let element of modList) {
+    for (let element of modsConfig) {
         if (!element.enabled) {
             logger.logWarning("Skipping mod " + element.author + "-" + element.name + "-" + element.version);
             continue;
@@ -198,8 +195,12 @@ function routeAll() {
 
     /* add important server paths */
     db.user = {
-        "config": "user/server.config.json",
-        "events_schedule": "user/events/schedule.json"
+        "configs": {
+            "server": "user/config/server.json"
+        },
+        "events": {
+            "schedule": "user/events/schedule.json"
+        }   
     }
 }
 
@@ -209,23 +210,23 @@ function all() {
     /* check if loadorder is missing */
     if (!fs.existsSync("user/cache/loadorder.json")) {
         logger.logWarning("Loadorder mismatch");
-        settings.server.rebuildCache = true;
+        serverConfig.rebuildCache = true;
     }
 
     /* detect if existing mods changed */
     if (detectChangedMods()) {
         logger.logWarning("Modlist mismatch");
-        settings.server.rebuildCache = true;
+        serverConfig.rebuildCache = true;
     }
 
     /* check if db need rebuid */
     if (isRebuildRequired()) {
         logger.logWarning("Rebuild required");
-        settings.server.rebuildCache = true;
+        serverConfig.rebuildCache = true;
     }
 
     /* rebuild db */
-    if (settings.server.rebuildCache) {
+    if (serverConfig.rebuildCache) {
         logger.logWarning("Rebuilding routes");
         
         flush();

@@ -22,10 +22,10 @@ function addToWishList(pmcData, body, sessionID) {
 *  output: OK (saved profile)
 * */
 function removeFromWishList(pmcData, body, sessionID) {
-    for (let item in pmcData['Wishlist']) {
-        if (pmcData.WishList[item] === body['templateId']) {
-            pmcData.WishList.splice(item, 1);
-        }
+
+    for (let i = 0; i < pmcData.WishList.length; i++) 
+    {
+        if (pmcData.WishList[i] === body['templateId']) { pmcData.WishList.splice(i, 1); }
     }
 
     return item_f.itemServer.getOutput();

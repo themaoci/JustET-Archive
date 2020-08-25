@@ -124,7 +124,7 @@ class HealthServer {
 
     /* apply the health changes to the profile */
     applyHealth(pmcData, sessionID) {
-        if (!settings.gameplay.inraid.saveHealthEnabled) {
+        if (!gameplayConfig.inraid.saveHealthEnabled) {
             return;
         }
 
@@ -139,7 +139,7 @@ class HealthServer {
 
                 /* set body part health */
                 pmcData.Health.BodyParts[item].Health.Current = (node[item] === -1)
-                    ? Math.round((pmcData.Health.BodyParts[item].Health.Maximum * settings.gameplay.inraid.saveHealthMultiplier))
+                    ? Math.round((pmcData.Health.BodyParts[item].Health.Maximum * gameplayConfig.inraid.saveHealthMultiplier))
                     : node[item];
             } else {
                 /* set resources */

@@ -1,11 +1,11 @@
 const fs = require('fs');
 
-let settings = JSON.parse(readJson(__dirname + "/../../user/server.config.json"));
+let settings = JSON.parse(readJson(__dirname + "/../../user/configs/server.json"));
 
 // Setup our custom https port for travis ci
-settings.server.port = 8080;
+settings.port = 8080;
 
-fs.writeFileSync(__dirname + "/../../user/server.config.json", JSON.stringify(settings), 'utf8');
+fs.writeFileSync(__dirname + "/../../user/configs/server.json", JSON.stringify(settings), 'utf8');
 
 console.log('Setup server config for CI');
 

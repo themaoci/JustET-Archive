@@ -3,12 +3,11 @@
 const fs = require('fs');
 
 function route() {
-    if (!settings.server.rebuildCache) {
+    if (!serverConfig.rebuildCache) {
         return;
     }
     
     db.user.profiles = {
-        "list": "user/profiles.config.json",
         "character": "user/profiles/__REPLACEME__/character.json",
         "dialogue": "user/profiles/__REPLACEME__/dialogue.json",
         "storage": "user/profiles/__REPLACEME__/storage.json",
@@ -29,7 +28,10 @@ function route() {
         "mods": "user/cache/mods.json"
     };
 
-    for (let trader in db.traders) {
+    db.user.configs.accounts = "user/configs/accounts.json";
+    db.user.configs.gameplay = "user/configs/gameplay.json";
+
+    for (let trader in db.assort) {
         db.user.cache["assort_" + trader] = "user/cache/assort_" + trader + ".json";
 
         if ("customization" in db.assort[trader]) {

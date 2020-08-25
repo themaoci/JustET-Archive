@@ -35,10 +35,10 @@
   },
   "homepage": "https://justemutarkov.github.io",
   "dependencies": {
-    "upx": "^1.0.0",
-    "nexe": "^3.3.0",
     "adler32": "^0.1.7",
-    "selfsigned": "^1.10.7"
+    "nexe": "^3.3.2",
+    "selfsigned": "^1.10.7",
+    "upx": "^1.0.6"
   },
   "devDependencies": {
     "chai": "^4.2.0",

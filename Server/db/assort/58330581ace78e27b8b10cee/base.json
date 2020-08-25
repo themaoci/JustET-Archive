@@ -61,11 +61,5 @@
 			}
 		}
 	},
-	"sell_category": 
-	[
-		"5b5f71b386f774093f2ecf11",
-		"5b5f750686f774093e6cb503",
-		"5b5f78e986f77447ed5636b1",
-		"5b5f78fc86f77409407a7f90"
-	]
+	"sell_category": []
 }

@@ -55,8 +55,6 @@ class InsuranceServer {
 
     /* store lost pmc gear */
     storeLostGear(pmcData, offraidData, preRaidGear, sessionID) {
-        //console.log(offraidData);
-
         // Build a hash table to reduce loops
         const preRaidGearHash = {};
         preRaidGear.forEach(i => preRaidGearHash[i._id] = i);
@@ -66,7 +64,6 @@ class InsuranceServer {
         offraidData.profile.Inventory.items.forEach(i => offRaidGearHash[i._id] = i);
 
         for (let insuredItem of pmcData.InsuredItems) {
-            
             if (preRaidGearHash[insuredItem.itemId]) {
                 // This item exists in preRaidGear, meaning we brought it into the raid...
                 // Check if we brought it out of the raid
@@ -130,7 +127,7 @@ class InsuranceServer {
 
     processReturn(event) {
         // Inject a little bit of a surprise by failing the insurance from time to time ;)
-        if (utility.getRandomInt(0, 99) > settings.gameplay.trading.insureReturnChance) {
+        if (utility.getRandomInt(0, 99) > gameplayConfig.trading.insureReturnChance) {
             let insuranceFailedTemplates = json.parse(json.read(db.dialogues[event.data.traderId])).insuranceFailed;
             event.data.messageContent.templateId = insuranceFailedTemplates[utility.getRandomInt(0, insuranceFailedTemplates.length)];
             event.data.items = [];
@@ -152,7 +149,7 @@ function cost(info, sessionID) {
             for (let item of pmcData.Inventory.items) {
                 if (item._id === key) {
                     let template = json.parse(json.read(db.templates.items[item._tpl]));
-                    items[template.Id] = Math.round(template.Price * settings.gameplay.trading.insureMultiplier);
+                    items[template.Id] = Math.round(template.Price * gameplayConfig.trading.insureMultiplier);
                     break;
                 }
             }
@@ -176,7 +173,7 @@ function insure(pmcData, body, sessionID) {
 
                 itemsToPay.push({
                     "id": item._id,
-                    "count": Math.round(template.Price * settings.gameplay.trading.insureMultiplier)
+                    "count": Math.round(template.Price * gameplayConfig.trading.insureMultiplier)
                 });
                 break;
             }

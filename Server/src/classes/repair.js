@@ -20,7 +20,7 @@ function main(pmcData, body, sessionID) {
         }
 
         // get repair price and pay the money
-        let repairCost = Math.round((items.data[itemToRepair._tpl]._props.RepairCost * repairItem.count * repairRate) * settings.gameplay.trading.repairMultiplier);
+        let repairCost = Math.round((items.data[itemToRepair._tpl]._props.RepairCost * repairItem.count * repairRate) * gameplayConfig.trading.repairMultiplier);
 
         if (!itm_hf.payMoney(pmcData, {"scheme_items": [{"id": repairItem._id, "count": Math.round(repairCost)}], "tid": body.tid}, sessionID)) {
             logger.logError("no money found");

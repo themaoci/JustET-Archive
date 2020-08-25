@@ -5,6 +5,7 @@ function initialize() {
     global.globals = json.parse(json.read(db.globals));
     global.templates = json.parse(json.read(db.user.cache.templates));
     global.tplLookup = itm_hf.createLookup();
+    global.gameplayConfig = json.parse(json.read(db.user.configs.gameplay));
 }
 
 module.exports.initialize = initialize;

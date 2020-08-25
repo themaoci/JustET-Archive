@@ -8,7 +8,8 @@
 		"ShortName": "Wild_Dealmaker_body",
 		"Description": "Wild_Dealmaker_body",
 		"Side": [
-			"Usec"
+			"Usec",
+			"Bear"
 		],
 		"AvailableAsDefault": false,
 		"Body": "5d28adcb86f77429242fc893",

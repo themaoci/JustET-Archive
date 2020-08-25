@@ -8,7 +8,8 @@
 		"ShortName": "Pants_BOSS_Shturman",
 		"Description": "Pants_BOSS_Shturman",
 		"Side": [
-			"Savage"
+			"Usec",
+			"Bear"
 		],
 		"AvailableAsDefault": false,
 		"Feet": "5d5e7f3c86f7742797262063"

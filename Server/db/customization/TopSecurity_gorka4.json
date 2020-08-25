@@ -8,7 +8,8 @@
 		"ShortName": "TopSecurity_gorka4",
 		"Description": "TopSecurity_gorka4",
 		"Side": [
-			"Usec"
+			"Usec",
+			"Bear"
 		],
 		"AvailableAsDefault": false,
 		"Body": "5d5e7e8386f774393602d6fa",

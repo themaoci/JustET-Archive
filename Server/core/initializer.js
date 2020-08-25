@@ -1,6 +1,6 @@
 "use strict";
 
-class Interpreter {
+class Initializer {
     constructor() {
         this.initializeCore();
         this.initializeExceptions();
@@ -16,7 +16,8 @@ class Interpreter {
         global.json = require('./util/json.js');
 
         /* setup core files */
-        global.settings = json.parse(json.read("user/server.config.json"));
+        global.serverConfig = json.parse(json.read("user/configs/server.json"));
+        global.modsConfig = json.parse(json.read("user/configs/mods.json"));
         global.db = {};
         global.res = {};
 
@@ -57,4 +58,4 @@ class Interpreter {
     }
 }
 
-module.exports.interpreter = new Interpreter();
+module.exports.initializer = new Initializer();

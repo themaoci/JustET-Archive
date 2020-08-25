@@ -1,12 +1,12 @@
 {
-	"_id": "5a7c2eca46aef81a7ca2145d",
+	"_id": "5ac3b934156ae10c4430e83c",
 	"working": true,
-	"customization_seller": false,
-	"name": "Сергей Арсеньевич",
-	"surname": "Mechanic",
-	"nickname": "Механик",
-	"location": "Химкомбинат",
-	"avatar": "/files/trader/avatar/5a7c2eca46aef81a7ca2145d.jpg",
+	"customization_seller": true,
+	"name": "Аршавир Саркисович",
+	"surname": "Абрамян",
+	"nickname": "Ragman",
+	"location": "",
+	"avatar": "/files/trader/avatar/5ac3b934156ae10c4430e83c.jpg",
 	"balance_rub": 80000000,
 	"balance_dol": 0,
 	"balance_eur": 0,
@@ -15,10 +15,10 @@
 	"discount_end": 0,
 	"buyer_up": false,
 	"currency": "RUB",
-	"supply_next_time": 1576764739,
+	"supply_next_time": 1576764934,
 	"repair": {
-		"availability": true,
-		"quality": "0.7",
+		"availability": false,
+		"quality": "1",
 		"excluded_id_list": [],
 		"excluded_category": [],
 		"currency": "5449016a4bdc2d6f028b456f",
@@ -33,7 +33,7 @@
 		"max_storage_time": 72,
 		"excluded_category": []
 	},
-	"gridHeight": 160,
+	"gridHeight": 200,
 	"loyalty": {
 		"currentLevel": 1,
 		"currentStanding": 0,
@@ -45,9 +45,9 @@
 				"minStanding": 0
 			},
 			"1": {
-				"minLevel": 20,
+				"minLevel": 15,
 				"minSalesSum": 1000000,
-				"minStanding": 0.15
+				"minStanding": 0
 			},
 			"2": {
 				"minLevel": 30,
@@ -61,16 +61,5 @@
 			}
 		}
 	},
-	"sell_category": 
-	[
-		"5b5f78dc86f77409407a7f8e",
-		"5b5f71b386f774093f2ecf11",
-		"5b5f750686f774093e6cb503",
-		"5b5f75b986f77447ec5d7710",
-		"5b47574386f77428ca22b346",
-		"5b47574386f77428ca22b33e",
-		"5b47574386f77428ca22b341",
-		"5b47574386f77428ca22b345",
-		"5b47574386f77428ca22b343"
-	]
+	"sell_category": []
 }

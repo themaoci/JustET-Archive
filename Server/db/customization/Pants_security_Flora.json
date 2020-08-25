@@ -8,7 +8,8 @@
 		"ShortName": "Pants_security_Flora",
 		"Description": "Pants_security_Flora",
 		"Side": [
-			"Savage"
+			"Usec",
+			"Bear"
 		],
 		"AvailableAsDefault": false,
 		"Feet": "5d5e7f8986f7742798716582"

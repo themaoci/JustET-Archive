@@ -1,7 +1,7 @@
 "use strict";
 
 function saveCallback(sessionID, req, resp, body, output) {
-    if (settings.autosave.saveOnReceive) {
+    if (gameplayConfig.autosave.saveOnReceive) {
         saveHandler.saveOpenSessions();
     }
 }

@@ -8,7 +8,8 @@
 		"ShortName": "wild_Shturman_body",
 		"Description": "wild_Shturman_body",
 		"Side": [
-			"Usec"
+			"Usec",
+			"Bear"
 		],
 		"AvailableAsDefault": false,
 		"Body": "5d5e7c9186f774393602d6f9",

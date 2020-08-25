@@ -35,7 +35,7 @@ function markFoundItems(pmcData, offraidData, isPlayerScav) {
         }
 
         // mark item found in raid
-        if (offraidItem.hasOwnProperty("upd")) {
+        if ("upd" in offraidItem) {
             offraidItem.upd["SpawnedInSession"] = true;
         } else {
             offraidItem["upd"] = {"SpawnedInSession": true};
@@ -65,7 +65,8 @@ function deleteInventory(pmcData, sessionID) {
         if (item.parentId === pmcData.Inventory.equipment
         && item.slotId !== "SecuredContainer"
         && item.slotId !== "Scabbard"
-        && item.slotId !== "Pockets") {
+        && item.slotId !== "Pockets"
+        || item.parentId === pmcData.Inventory.questRaidItems) {
             toDelete.push(item._id);
         }
 
@@ -83,6 +84,8 @@ function deleteInventory(pmcData, sessionID) {
     for (let item of toDelete) {
         move_f.removeItemFromProfile(pmcData, item);
     }
+
+    pmcData.Inventory.fastPanel = {}
 
     return pmcData;
 }
@@ -143,7 +146,7 @@ function getPlayerGear(items) {
 }
 
 function saveProgress(offraidData, sessionID) {
-    if (!settings.gameplay.inraid.saveLootEnabled) {
+    if (!gameplayConfig.inraid.saveLootEnabled) {
         return;
     }
 

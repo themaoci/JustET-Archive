@@ -8,7 +8,8 @@
 		"ShortName": "wild_pmcBot_body",
 		"Description": "wild_pmcBot_body",
 		"Side": [
-			"Usec"
+			"Usec",
+			"Bear"
 		],
 		"AvailableAsDefault": false,
 		"Body": "5d28ae4986f7742926686187",

@@ -8,7 +8,8 @@
 		"ShortName": "wild_feet",
 		"Description": "wild_feet",
 		"Side": [
-			"Savage"
+			"Usec",
+			"Bear"
 		],
 		"AvailableAsDefault": false,
 		"Feet": "5cc2e5d014c02e15d53d9c03"

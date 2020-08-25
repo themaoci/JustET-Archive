@@ -10,14 +10,14 @@ function generate() {
     let output = {};
 
     // set weather
-    if (settings.gameplay.location.forceWeatherEnabled) {
-        output = weather.data[settings.gameplay.location.forceWeatherId];
+    if (gameplayConfig.location.forceWeatherEnabled) {
+        output = weather.data[gameplayConfig.location.forceWeatherId];
     } else {
         output = weather.data[utility.getRandomInt(0, weather.data.length - 1)];
     }
 
     // replace date and time
-    if (settings.gameplay.location.realTimeEnabled) {
+    if (gameplayConfig.location.realTimeEnabled) {
         let time = utility.getTime().replace("-", ":").replace("-", ":");
         let date = utility.getDate();
         let datetime = date + " " + time;

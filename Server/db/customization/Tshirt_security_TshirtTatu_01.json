@@ -8,7 +8,8 @@
 		"ShortName": "Tshirt_security_TshirtTatu_01",
 		"Description": "Tshirt_security_TshirtTatu_01",
 		"Side": [
-			"Usec"
+			"Usec",
+			"Bear"
 		],
 		"AvailableAsDefault": false,
 		"Body": "5d5e7e4a86f774279a21cc0d",

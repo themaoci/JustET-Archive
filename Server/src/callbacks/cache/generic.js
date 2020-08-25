@@ -38,7 +38,7 @@ function genericCacher(cachename, filepathNode, output = "") {
 }
 
 function cache() {
-    if (settings.server.rebuildCache) {
+    if (serverConfig.rebuildCache) {
         genericCacher("items.json", db.items);
         genericCacher("quests.json", db.quests);
         genericCacher("customization.json", db.customization);

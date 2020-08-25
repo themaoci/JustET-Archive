@@ -433,7 +433,7 @@ function addItem(pmcData, body, output, sessionID, foundInRaid = false) {
                             let upd = {"StackObjectsCount": StacksValue[stacks]};
 
                             // in case people want all items to be marked as found in raid
-                            if (settings.gameplay.trading.buyItemsMarkedFound) {
+                            if (gameplayConfig.trading.buyItemsMarkedFound) {
                                 foundInRaid = true;
                             }
 

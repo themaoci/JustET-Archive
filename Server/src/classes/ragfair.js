@@ -241,14 +241,14 @@ function createOffer(template, onlyFunc, usePresets = true) {
             offer._id = p._id;               // The offer's id is now the preset's id
             offer.root = mods[0]._id;        // Sets the main part of the weapon
             offer.items = mods;
-            offer.requirements[0].count = Math.round(rub * settings.gameplay.trading.ragfairMultiplier);
+            offer.requirements[0].count = Math.round(rub * gameplayConfig.trading.ragfairMultiplier);
             offers.push(offer);
         }
     }
 
     // Single item
     if (!preset_f.itemPresets.hasPreset(template) || !onlyFunc) {
-        let rubPrice = Math.round(itm_hf.getTemplatePrice(template) * settings.gameplay.trading.ragfairMultiplier);
+        let rubPrice = Math.round(itm_hf.getTemplatePrice(template) * gameplayConfig.trading.ragfairMultiplier);
         offerBase._id = template;
         offerBase.items[0]._tpl = template;
         offerBase.requirements[0].count = rubPrice;

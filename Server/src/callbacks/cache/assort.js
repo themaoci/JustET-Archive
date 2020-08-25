@@ -1,14 +1,12 @@
 "use strict";
 
-const fs = require('fs');
-
 function cache() {
-    if (!settings.server.rebuildCache) {
+    if (!serverConfig.rebuildCache) {
         return;
     }
 
     /* assort */
-    for (let trader in db.traders) {
+    for (let trader in db.assort) {
         logger.logInfo("Caching: assort_" + trader + ".json");
 
         let base = json.parse(json.read("db/cache/assort.json"));
@@ -44,7 +42,7 @@ function cache() {
     }
 
     /* customization */
-    for (let trader in db.traders) {
+    for (let trader in db.assort) {
         if ("customization" in db.assort[trader]) {
             logger.logInfo("Caching: customization_" + trader + ".json");
 

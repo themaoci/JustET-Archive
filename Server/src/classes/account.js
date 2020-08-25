@@ -10,11 +10,11 @@ class AccountServer {
     }
 
     initialize() {
-        this.accounts = json.parse(json.read(db.user.profiles.list));
+        this.accounts = json.parse(json.read(db.user.configs.accounts));
     }
 
     saveToDisk() {
-        json.write(db.user.profiles.list, this.accounts);
+        json.write(db.user.configs.accounts, this.accounts);
     }
 
     find(sessionID) {
